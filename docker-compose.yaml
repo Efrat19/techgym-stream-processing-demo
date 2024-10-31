@@ -1,16 +1,16 @@
 version: "3.8"
 services:
-  crawler:
-    image: flink-ads-processing/crawler
+  registrations-generator:
+    image: flink-ads-processing/registrations-generator
     build:
-      context: crawler
+      context: registrations-generator
       dockerfile: Dockerfile
     volumes:
-      - ./crawler-output:/tmp
+      - ./registrations-generator-output:/tmp
     environment:
-      SCRAPY_JSON_OUTPUT_PATH: '/tmp/ads.jsonl'
-      SCRAPY_KAFKA_HOSTS: 'broker:19092'
-      SCRAPY_KAFKA_ITEM_PIPELINE_TOPIC: 'scraped-ads'
+      KAFKA_HOSTS: 'broker:19092'
+      KAFKA_SESSIONS_TOPIC: 'sessions'
+      KAFKA_REGISTRATIONS_TOPIC: 'registrations'
     depends_on:
       broker:
         condition: service_healthy
@@ -93,7 +93,10 @@ services:
       schema-registry:
         condition: service_healthy
   jobmanager:
-    image: flink:1.17-java11
+    image: flink
+    build:
+      context: flink
+      dockerfile: Dockerfile
     container_name: jobmanager
     hostname: jobmanager
     ports:
@@ -128,7 +131,10 @@ services:
     volumes:
       - ./flink-checkpoints:/opt/flink/checkpoints
   taskmanager:
-    image: flink:1.17-java11
+    image: flink
+    build:
+      context: flink
+      dockerfile: Dockerfile
     container_name: taskmanager
     command: taskmanager
     restart: always
@@ -158,31 +164,6 @@ services:
     volumes:
       - ./flink-checkpoints:/opt/flink/checkpoints
 
-  flink-client-abcyt:
-    build: 
-      context: flink-jobs
-      dockerfile: client.Dockerfile
-      args:
-        JOB: AdsByCityYearTumbling
-    container_name: client-abcyt
-    depends_on:
-      jobmanager:
-        condition: service_healthy
-      broker:
-        condition: service_healthy
-  flink-client-abcs:
-    build: 
-      context: flink-jobs
-      dockerfile: client.Dockerfile
-      args:
-        JOB: AdsByCitySliding
-    container_name: client-abcs
-    depends_on:
-      jobmanager:
-        condition: service_healthy
-      broker:
-        condition: service_healthy
-
   loki:
     image: grafana/loki:2.9.4
     container_name: viz-loki
@@ -203,7 +184,6 @@ services:
     depends_on:
       broker:
         condition: service_healthy
-
   grafana:
     environment:
       - GF_PATHS_PROVISIONING=/etc/grafana/provisioning

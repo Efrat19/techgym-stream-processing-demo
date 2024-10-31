@@ -18,75 +18,10 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 4,
   "links": [],
   "liveNow": false,
   "panels": [
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "P8E80F9AEF21F6940"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            }
-          },
-          "mappings": [],
-          "unitScale": true
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 19,
-        "w": 10,
-        "x": 0,
-        "y": 0
-      },
-      "id": 1,
-      "options": {
-        "legend": {
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "pieType": "pie",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "10.3.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "loki",
-            "uid": "P8E80F9AEF21F6940"
-          },
-          "editorMode": "code",
-          "expr": "sum(sum_over_time({topic=\"ads-by-city-and-year-tmbl-win\"} | unwrap num_ads | __error__=`` [$__interval])) by (city)",
-          "legendFormat": "{{city}}",
-          "queryType": "range",
-          "refId": "A"
-        }
-      ],
-      "title": "Cumulation of tumbling windows - num ads per city",
-      "transformations": [],
-      "type": "piechart"
-    },
     {
       "datasource": {
         "type": "loki",
@@ -143,17 +78,18 @@
               }
             ]
           },
+          "unit": "short",
           "unitScale": true
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
-        "w": 14,
-        "x": 10,
+        "h": 9,
+        "w": 24,
+        "x": 0,
         "y": 0
       },
-      "id": 2,
+      "id": 1,
       "options": {
         "legend": {
           "calcs": [],
@@ -166,7 +102,6 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "10.3.3",
       "targets": [
         {
           "datasource": {
@@ -174,135 +109,30 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "last_over_time({topic=\"ads-by-city-sld-win\"} | unwrap num_ads | __error__=`` [1m]) by (city)",
-          "legendFormat": "{{city}}",
+          "expr": "sum by (title)(sum_over_time({topic=\"sessions-popularity\"} | unwrap registrations | __error__=`` [1m])) ",
+          "legendFormat": "{{title}}",
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "Ads scraped over the last minute per city (sliding window)",
-      "transformations": [],
+      "title": "Sessions popularity",
       "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "P8E80F9AEF21F6940"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            }
-          },
-          "mappings": [],
-          "unitScale": true
-        },
-        "overrides": [
-          {
-            "__systemRef": "hideSeriesFrom",
-            "matcher": {
-              "id": "byNames",
-              "options": {
-                "mode": "exclude",
-                "names": [
-                  "2015",
-                  "2016",
-                  "2017",
-                  "2018",
-                  "2019",
-                  "2021",
-                  "2023",
-                  "2024",
-                  "Value"
-                ],
-                "prefix": "All except:",
-                "readOnly": true
-              }
-            },
-            "properties": [
-              {
-                "id": "custom.hideFrom",
-                "value": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": true
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 11,
-        "w": 14,
-        "x": 10,
-        "y": 8
-      },
-      "id": 3,
-      "options": {
-        "legend": {
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "pieType": "pie",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "10.3.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "loki",
-            "uid": "P8E80F9AEF21F6940"
-          },
-          "editorMode": "code",
-          "expr": "sum(sum_over_time({topic=\"ads-by-city-and-year-tmbl-win\"} | unwrap num_ads | __error__=`` [$__interval])) by (posted_year)",
-          "legendFormat": "{{posted_year}}",
-          "queryType": "range",
-          "refId": "A"
-        }
-      ],
-      "title": "Cumulation of tumbling windows - ads per posted_year",
-      "transformations": [
-        {
-          "id": "partitionByValues",
-          "options": {}
-        }
-      ],
-      "type": "piechart"
     }
   ],
-  "refresh": "auto",
+  "refresh": "",
   "schemaVersion": 39,
   "tags": [],
   "templating": {
     "list": []
   },
   "time": {
-    "from": "now-30m",
-    "to": "now"
+    "from": "2024-10-31T11:04:03.211Z",
+    "to": "2024-10-31T11:04:03.221Z"
   },
   "timepicker": {},
   "timezone": "",
-  "title": "flink-jobs-visualization",
-  "uid": "fdf835b7-42d2-402a-93b0-3b048a1cfd41",
+  "title": "Sessions registrations over time",
+  "uid": "bbb1b69f-1b45-4faf-a774-35ba0efed382",
   "version": 1,
   "weekStart": ""
 }

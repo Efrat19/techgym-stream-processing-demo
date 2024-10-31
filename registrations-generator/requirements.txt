@@ -1,3 +1,2 @@
 requests
 itemadapter
-kafka-python >= 0.9.1

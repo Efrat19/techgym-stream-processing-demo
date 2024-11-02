@@ -18,7 +18,6 @@ Once the stack is up, you can
 
 - Monitor incoming results on the dashboard:
         http://localhost:3000/d/fdf835b7-42d2-402a-93b0-3b048a1cfd41/flink-jobs-visualization?orgId=1&refresh=5s
-<img src="resources/screenshot.png" width="1000"/>
 
 ## What's in here
 ```mermaid

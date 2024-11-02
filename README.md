@@ -34,4 +34,4 @@ flowchart TB
 1. **registrations generator** - Mocks a registration app by producing random registration events to the registration topic
 2. **kafka** - Accepts sessions list and registration events, and stores them as topics. Also stores the aggregation results.
 3. A **Flink client**, To process the stream live and produce aggregation results
-4. The **Visualization stack** - promtail, loki and grafana (honestly I wanted grafana to read directly from kafka but the required [plugin](https://github.com/hoptical/grafana-kafka-datasource) relies on librdkafka and won't compile on arm64 :cry:)
+4. The **Visualization stack** - promtail, loki and grafana

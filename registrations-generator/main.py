@@ -31,7 +31,7 @@ def main():
     while True:
         session = sessions[random.randint(0,len(sessions)-1)]
         producer.send(settings.KAFKA_REGISTRATIONS_TOPIC, {'reg_ts':datetime.datetime.now(), 'session_id':session['id']})
-        time.sleep(random.randint(0,5))
+        time.sleep(random.randint(5,20))
 
 if __name__ == "__main__":
     main()

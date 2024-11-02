@@ -109,7 +109,7 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "sum by (title)(sum_over_time({topic=\"sessions-popularity\"} | unwrap registrations | __error__=`` [1m])) ",
+          "expr": "sum by (title)(last_over_time({topic=\"sessions-popularity\"} | unwrap registrations | __error__=`` [30m])) ",
           "legendFormat": "{{title}}",
           "queryType": "range",
           "refId": "A"
@@ -119,15 +119,15 @@
       "type": "timeseries"
     }
   ],
-  "refresh": "",
+  "refresh": "auto",
   "schemaVersion": 39,
   "tags": [],
   "templating": {
     "list": []
   },
   "time": {
-    "from": "2024-10-31T11:04:03.211Z",
-    "to": "2024-10-31T11:04:03.221Z"
+    "from": "now-1h",
+    "to": "now"
   },
   "timepicker": {},
   "timezone": "",

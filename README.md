@@ -1,5 +1,5 @@
 # techgym-stream-processing-demo
-A flink + kotlin exercise
+A real-time streaming & processing exercise
 ## Explore
 Start the project 
 ```console
